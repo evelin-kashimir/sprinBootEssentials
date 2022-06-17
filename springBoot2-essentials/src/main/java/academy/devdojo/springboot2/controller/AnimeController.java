@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//@AllArgsConstructor constroi um contrutor com todos os atributos da classe;
 @RestController //Define essa classe como controller e todos os métodos teram @ResponseBy, definindo todos os retornos como string(JSON);
 @RequestMapping("anime") //quando acessar anime, acessará o endpoint list;
 @Log4j2
 @RequiredArgsConstructor // constroi um contrutor com todos os atributos da classe até mesmo as constantes (final);
-//@AllArgsConstructor constroi um contrutor com todos os atributos da classe;
 public class AnimeController {
     private final DateUtil dateUtil;
 
@@ -24,8 +24,7 @@ public class AnimeController {
     @GetMapping(path = "list") //faz o mesmo, porém de uma forma mais clean
     public List<Anime> list(){
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now())); //trazendo no log a data da inicialização do que aparece na página
-        return List.of(new Anime("NARUTO"), new Anime("DBZ"));
+        return List.of(new Anime("NARUTO"), new Anime("DBZ"), new Anime("DBZ"));
     }
-
 }
 
