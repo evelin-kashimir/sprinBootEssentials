@@ -6,11 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class AnimeService {
-    private List<Anime> animes = List.of(new Anime( 1L,"NARUTO"), new Anime(2L, "DBZ"), new Anime(3L,"BORUTO"));
+    private static List<Anime> animes;
+    static {
+        animes = new ArrayList<>(List.of(new Anime( 1L,"NARUTO"), new Anime(2L, "DBZ"), new Anime(3L,"BORUTO")));
+    }
 
     public List<Anime> listAll() {
         return animes;
@@ -22,6 +27,12 @@ public class AnimeService {
                 .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found"));
     }
+
+    public Anime save(Anime anime) {
+        anime.setId(ThreadLocalRandom.current().nextLong(3, 1000));
+        animes.add(anime);
+        return anime;
+    }
 }
 
 /* ANOTAÇÕES - O QUE ESTÁ ACONTECENDO...
@@ -30,6 +41,9 @@ Anotations
 @Service - Este bean define a classe como um serviço;
 
 EndPoinsts
+static {animes = new ArrayList<>(List.of(new Anime( 1L,"NARUTO"), new Anime(2L, "DBZ"), new Anime(3L,"BORUTO")))}
+A linha acima está simulando uma base de dados no banco, no caso criando um array para receber os metodos de CRUD;
+
 public List<Anime> listAll() - EndPoint herdado da interface repository, listará todos os registros contentes na base de dados;
 
 public Anime findById(long id) - Retorna um registro por Id;
@@ -38,5 +52,10 @@ return animes.stream() - Fatia a lista;
   .findFirst() - Encontro o primeiro e traga;
   .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found")) - Caso não encontre, traz uma exceção
   com o HTTP Status de erro, e com a mesagem escolhida;
+
+public Anime save(Anime anime) - Método para inserir(salvar) dados na base de dados;
+anime.setId(ThreadLocalRandom.current().nextLong(3, 1000)) - Nesse caso, como não temos conexao ao banco, precisamos simular um rand para gerar o id
+animes.add(anime) - Adicionando a base de dados
+return anime - Por fim retorna o que foi adicionado;
 
  */
