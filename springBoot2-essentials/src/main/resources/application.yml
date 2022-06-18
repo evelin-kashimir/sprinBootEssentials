@@ -1,5 +1,14 @@
+## Elimina toda a mensgem de erro gigantesca da pagina deixando somente a mensagem 404
 server:
   error:
     include-stacktrace: on_param
 
-## Elimina toda a mensgem de erro gigantesca da pagina deixando somente a mensagem 404
+##Conectando ao banco de dados
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/anime?&allowPublicKeyRetrieval=true
+    username: root
+    password: kashinho123
+  jpa:
+    hibernate:
+      ddl-auto: update

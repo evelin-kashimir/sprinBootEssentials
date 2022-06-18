@@ -2,6 +2,8 @@ package academy.devdojo.springboot2.controller;
 
 //CONTROLER FICAM TODOS OS ENDPOINTS;
 import academy.devdojo.springboot2.domain.Anime;
+import academy.devdojo.springboot2.dto.AnimePostDTO;
+import academy.devdojo.springboot2.dto.AnimePutDTO;
 import academy.devdojo.springboot2.service.AnimeService;
 import academy.devdojo.springboot2.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,17 +32,23 @@ public class AnimeController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findByid(@PathVariable long id){
-        return ResponseEntity.ok(animeService.findById(id));
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime){
+    public ResponseEntity<Anime> save(@RequestBody AnimePostDTO anime){
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){
         animeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody AnimePutDTO animePutDTO){
+        animeService.replace(animePutDTO);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
@@ -74,6 +82,10 @@ return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED) - Salv
 @DeleteMapping(path = "/{id}") -  animes + /id URL que será mapeada e excluida;
 public ResponseEntity<Void> delete(@PathVariable long id) - Parametro que será utilizado na URL;
 animeService.delete(id) - Deleta o id que foi inserido no parametro da URL;
-return new ResponseEntity<>(HttpStatus.NO_CONTENT) - Retorna o status de exclusão 204
+return new ResponseEntity<>(HttpStatus.NO_CONTENT) - Retorna o status de exclusão 204;
+
+@PutMapping - Atualiza dados da base;
+public ResponseEntity<Void> replace(@RequestBody Anime anime) - Requisição através do body(formulário0 do objeto que será registrado;
+animeService.replace(anime) - Chamando o metodo para finalizar a atualização
 
 */
