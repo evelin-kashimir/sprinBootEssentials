@@ -1,0 +1,5 @@
+server:
+  error:
+    include-stacktrace: on_param
+
+## Elimina toda a mensgem de erro gigantesca da pagina deixando somente a mensagem 404

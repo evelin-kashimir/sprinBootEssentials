@@ -7,7 +7,9 @@ import academy.devdojo.springboot2.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +25,14 @@ public class AnimeController {
     private final AnimeService animeService;
 
     @GetMapping
-    public List<Anime> list(){
+    public ResponseEntity<List<Anime>> list(){
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return animeService.listAll();
+        return ResponseEntity.ok(animeService.listAll());
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Anime> findByid(@PathVariable long id){
+        return ResponseEntity.ok(animeService.findById(id));
     }
 }
 
@@ -41,8 +48,16 @@ Anotations
 @Log4j2 - Traz uma lib de log implantada pelo lombok;
 
 EndPoints
+
 public List<Anime> list(){ - Retorna uma lista de animes;
 log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now())) Trazendo no log a data da inicialização do que aparece na página;
 return animeService.listAll(); Implementa o método que está no service com a lógica de negócio;
+new ResponseEntity<>(animeService.listAll(), HttpStatus.OK) - Traz o status HTTP da página
+ResponseEntity.ok(animeService.listAll()) - Faz o mesmo da linha acima, porém mais simplificado e clean
+
+@GetMapping(path = "/{id}") - animes + /id URL que será mapeada
+public ResponseEntity<Anime> findByid(@PathVariable long id) - Parametro que será utilizado na URL
+return ResponseEntity.ok(animeService.findById(id)) - Trazendo o registro encontrado com o id passado no parametro da URL
+
 
 */
