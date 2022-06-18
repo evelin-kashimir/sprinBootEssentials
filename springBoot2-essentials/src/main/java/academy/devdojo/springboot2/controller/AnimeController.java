@@ -37,6 +37,12 @@ public class AnimeController {
     public ResponseEntity<Anime> save(@RequestBody Anime anime){
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id){
+        animeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
 
 /* ANOTAÇÕES - O QUE ESTÁ ACONTECENDO...
@@ -51,19 +57,23 @@ Anotations
 @Log4j2 - Traz uma lib de log implantada pelo lombok;
 
 EndPoints
-
 public List<Anime> list(){ - Retorna uma lista de animes;
 log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now())) Trazendo no log a data da inicialização do que aparece na página;
 return animeService.listAll(); Implementa o método que está no service com a lógica de negócio;
-new ResponseEntity<>(animeService.listAll(), HttpStatus.OK) - Traz o status HTTP da página
-ResponseEntity.ok(animeService.listAll()) - Faz o mesmo da linha acima, porém mais simplificado e clean
+new ResponseEntity<>(animeService.listAll(), HttpStatus.OK) - Traz o status HTTP da página;
+ResponseEntity.ok(animeService.listAll()) - Faz o mesmo da linha acima, porém mais simplificado e clean;
 
-@GetMapping(path = "/{id}") - animes + /id URL que será mapeada
-public ResponseEntity<Anime> findByid(@PathVariable long id) - Parametro que será utilizado na URL
-return ResponseEntity.ok(animeService.findById(id)) - Trazendo o registro encontrado com o id passado no parametro da URL
+@GetMapping(path = "/{id}") - animes + /id URL que será mapeada;
+public ResponseEntity<Anime> findByid(@PathVariable long id) - Parametro que será utilizado na URL;
+return ResponseEntity.ok(animeService.findById(id)) - Trazendo o registro encontrado com o id passado no parametro da URL;
 
-@PostMapping - Inserir dados na base
-public ResponseEntity<Anime> save(@RequestBody Anime anime) - Utilizara um formulário, o que estiver no Body, será utilizado na requisição
+@PostMapping - Inserir dados na base;
+public ResponseEntity<Anime> save(@RequestBody Anime anime) - Utilizara um formulário, o que estiver no Body, será utilizado na requisição;
 return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED) - Salvando na base e retornando o status 201;
+
+@DeleteMapping(path = "/{id}") -  animes + /id URL que será mapeada e excluida;
+public ResponseEntity<Void> delete(@PathVariable long id) - Parametro que será utilizado na URL;
+animeService.delete(id) - Deleta o id que foi inserido no parametro da URL;
+return new ResponseEntity<>(HttpStatus.NO_CONTENT) - Retorna o status de exclusão 204
 
 */
