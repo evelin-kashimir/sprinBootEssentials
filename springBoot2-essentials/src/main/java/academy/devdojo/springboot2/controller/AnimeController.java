@@ -35,6 +35,11 @@ public class AnimeController {
         return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Anime>> findByName(@RequestParam String name){
+        return ResponseEntity.ok(animeService.findByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<Anime> save(@RequestBody AnimePostDTO animePostDTO){
         animeService.save(animePostDTO);
@@ -88,5 +93,9 @@ return new ResponseEntity<>(HttpStatus.NO_CONTENT) - Retorna o status de exclus�
 @PutMapping - Atualiza dados da base;
 public ResponseEntity<Void> replace(@RequestBody Anime anime) - Requisição através do body(formulário0 do objeto que será registrado;
 animeService.replace(anime) - Chamando o metodo para finalizar a atualização
+
+@GetMapping(path = "/find") - Procura um registro pelo name
+public ResponseEntity<List<Anime>> findByName(@RequestParam String name) - Request param funciona como o patch variable, pegando o parametro através da URL;
+return ResponseEntity.ok(animeService.findByName(name)) - Retorna o registro com o nome solicitado, não é case sensitive;
 
 */
